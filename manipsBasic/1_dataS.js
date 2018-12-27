@@ -5,8 +5,9 @@ const tfn = require('@tensorflow/tfjs-node')
 const Xvalues = []
 const YValues = []
 for (let index = 1; index < 20; index++) {
-  Xvalues.push(index)
-  YValues.push(index * 4)
+  const num = Math.floor(Math.random() * 10) + 1
+  Xvalues.push(num)
+  YValues.push(num * 4)
 }
 
 const xs = tf.tensor(Xvalues);
@@ -30,7 +31,7 @@ const loss = (predictions, labels) => {
   return predictions.sub(labels).square().mean();
 }
 
-const train = async (xs_p, ys_p, numIterations = 1565) => {
+const train = async (xs_p, ys_p, numIterations = 3000) => {
   const learningRate = 0.007;
   const optimizer = tf.train.sgd(learningRate);
   
