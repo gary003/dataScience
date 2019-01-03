@@ -29,7 +29,7 @@ const optimizer = tf.train.sgd(learningRate);
 
 // Step 4: fit the model with the datas
 model.compile({loss: 'meanSquaredError',optimizer: optimizer});
-model.fit(xs,ys ,{epochs: 3000}).then(() => {
-  model.predict(tf.tensor2d([115],[1,1])).print();
+model.fit(xs,ys ,{epochs: 13000}).then(() => {
+  model.predict(tf.tensor2d([12],[1,1])).print();
   ys.print()
 });

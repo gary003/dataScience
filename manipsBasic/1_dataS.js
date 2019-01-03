@@ -14,13 +14,17 @@ const xs = tf.tensor(Xvalues);
 const ys = tf.tensor(YValues);
 
 // Step 1: Set up Variables
-const a = tf.variable(tf.tensor([0]))
-const d = tf.variable(tf.tensor([5]))
+const a = tf.variable(tf.tensor([0.9]))
+const b = tf.variable(tf.tensor([0]))
+const c = tf.variable(tf.tensor([0]))
+const d = tf.variable(tf.tensor([0.5]))
 
 // Step 2: Build a prediction  Model : y = a * x + d
 const predict = (x) => {
   return tf.tidy(() => {
-    return a.mul(x).add(d);
+    return a.mul(x.pow(2))
+            .add(b.mul(x))
+            .add(d);
   });
 }
 
@@ -31,8 +35,8 @@ const loss = (predictions, labels) => {
   return predictions.sub(labels).square().mean();
 }
 
-const train = async (xs_p, ys_p, numIterations = 3000) => {
-  const learningRate = 0.007;
+const train = async (xs_p, ys_p, numIterations = 6800) => {
+  const learningRate = 0.00025;
   const optimizer = tf.train.sgd(learningRate);
   
   for (let iter = 0; iter < numIterations; iter++) {
@@ -41,12 +45,12 @@ const train = async (xs_p, ys_p, numIterations = 3000) => {
       lossT.print()
       return lossT
     })
-    //await tf.nextFrame();
   }
 }
 
 train(xs,ys).then(() => {
   a.print()
+  b.print()
   d.print()
   predict(tf.tensor1d([16])).print()
   console.log(tf.memory().numTensors)
